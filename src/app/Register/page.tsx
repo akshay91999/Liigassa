@@ -1,5 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
+import Image from "next/image";
 
 export default function PlayerRegister() {
   const [formData, setFormData] = useState({
@@ -136,9 +137,11 @@ export default function PlayerRegister() {
             />
             {preview && (
               <div className="mt-3 flex justify-center">
-                <img
+                <Image
                   src={preview}
                   alt="Preview"
+                  width={96}
+                  height={96}
                   className="h-24 w-24 object-cover rounded-full border-2 border-[#a90a18] shadow-md"
                 />
               </div>
