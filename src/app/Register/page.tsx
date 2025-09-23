@@ -1,5 +1,4 @@
 "use client";
-// for adding register page
 import { useState, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 
