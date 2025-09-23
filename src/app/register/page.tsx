@@ -75,7 +75,7 @@ export default function PlayerRegister() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b2040] via-[#111827] to-[#a90a18] px-4 pt-28 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-[#0b2040] via-[#111827] to-[#a90a18] px-4 pt-28 pb-8   flex items-center justify-center">
       <div className="w-full max-w-lg bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20">
         <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-[#a90a18] to-[#fff8db] bg-clip-text text-transparent mb-8">
           Player Registration
