@@ -32,26 +32,22 @@ export async function POST(req: NextRequest) {
     const fileName = `${timePrefix}-${originalName}`;
     const filePath = path.join(uploadsDir, fileName);
     
-    let bgRemoved = false;
-
-   
-      try {
-        // Dynamically import without static module resolution
-        const dynamicImport = (Function("return import"))() as unknown as <T>(m: string) => Promise<T>;
-        const rembg: { removeBackground: (buffer: Buffer) => Promise<Buffer | ArrayBuffer> } = await dynamicImport("rembg-node");
-        if (rembg && typeof rembg.removeBackground === "function") {
-          const outputAny: Buffer | ArrayBuffer = await rembg.removeBackground(buffer);
-          const outputBuffer: Buffer = Buffer.isBuffer(outputAny)
-            ? outputAny
-            : Buffer.from(outputAny as ArrayBuffer);
-          if (outputBuffer) {
-            buffer = outputBuffer;
-            bgRemoved = true;
-          }
+    try {
+      // Dynamically import without static module resolution
+      const dynamicImport = (Function("return import"))() as unknown as <T>(m: string) => Promise<T>;
+      const rembg: { removeBackground: (buffer: Buffer) => Promise<Buffer | ArrayBuffer> } = await dynamicImport("rembg-node");
+      if (rembg && typeof rembg.removeBackground === "function") {
+        const outputAny: Buffer | ArrayBuffer = await rembg.removeBackground(buffer);
+        const outputBuffer: Buffer = Buffer.isBuffer(outputAny)
+          ? outputAny
+          : Buffer.from(outputAny as ArrayBuffer);
+        if (outputBuffer) {
+          buffer = outputBuffer;
         }
-      } catch {
-        // Ignore and fallback
       }
+    } catch {
+      // Ignore and fallback
+    }
     
 
     // If background not removed, proceed with original buffer (no external fallback)
