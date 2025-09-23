@@ -10,7 +10,7 @@ export default function Home() {
         <HomePage/>
         <AboutPage/>
         <TeamsPage/>
-        <PlayersPage/>
+        {/* <PlayersPage/> */}
        </div>
     // </div>
   );

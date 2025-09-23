@@ -11,7 +11,7 @@ const dancing = Dancing_Script({
 
 export default function Aboutpage() {
   return (
-    <section id="about" className="relative py-20 bg-gradient-to-b from-[#0b2040] to-[#1a1a1a] text-white">
+    <section id="about" className="relative overflow-hidden py-20 bg-gradient-to-b from-[#0b2040] to-[#1a1a1a] text-white">
       <div className="container mx-auto px-6 md:px-12 lg:px-20 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
         {/* Left: Text coming from left */}

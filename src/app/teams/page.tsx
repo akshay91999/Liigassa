@@ -12,7 +12,7 @@ export default function TeamsPage() {
           </span>
         </h2>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-          8 powerful teams battle it out in <span className="font-bold text-[#a90a18]">Liigassa Season 2</span>.  
+          8 powerful teams battle it out in <span className="font-bold text-[#a90a18]">Liigassa Season 1</span>.
           Every logo carries passion, strength, and the spirit of football.
         </p>
 
@@ -24,14 +24,16 @@ export default function TeamsPage() {
               className="group relative p-6 rounded-2xl bg-white/10 backdrop-blur-lg shadow-xl 
               transform transition duration-500 hover:scale-110 hover:bg-gradient-to-r hover:from-[#a90a18] hover:to-[#0b2040]"
             >
-              <div className="w-28 h-28 mx-auto relative">
+              <div className="mx-auto relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
                 <Image
-                  src={item.img} // replace with your team logos
+                  src={item.img}
                   alt={item.name}
                   fill
                   className="object-contain transition-transform duration-500 group-hover:rotate-12"
+                  sizes="(max-width: 640px) 96px, (max-width: 768px) 112px, 128px"
                 />
               </div>
+
               <p className="mt-4 text-lg font-semibold tracking-wide">
                 {item.name}
               </p>

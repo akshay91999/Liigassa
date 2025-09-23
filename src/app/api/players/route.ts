@@ -5,6 +5,7 @@ import Player from "@/models/Player";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+
   try {
     await connectDB();
     const players = await Player.find().sort({ createdAt: -1 }).lean() as Record<string, unknown>[];
