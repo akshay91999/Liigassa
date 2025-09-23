@@ -71,8 +71,8 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-md flex flex-col justify-center-safe">
-          <NavLink href="/" label="Home" />
+        <div className="md:hidden bg-black shadow-md flex flex-col gap-3 justify-center-safe">
+          <NavLink href="/" label="Home"/>
           <NavLink href="/about" label="About" />
           <NavLink href="/teams" label="Teams" />
           <NavLink href="/players" label="Players" />

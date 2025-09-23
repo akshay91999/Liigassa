@@ -1,5 +1,8 @@
+"use client";
 import React from 'react'
 import { Dancing_Script } from "next/font/google";
+import { useRouter } from "next/navigation";
+
 
 
 const dancing = Dancing_Script({
@@ -9,7 +12,7 @@ const dancing = Dancing_Script({
 
 function HomePage() {
 
-
+const router = useRouter();
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Background Video */}
@@ -39,8 +42,8 @@ function HomePage() {
           Experience the ultimate football league with teams, players, and passion like never before.
         </p>
 
-        <button className="mt-8 px-6 py-3 bg-gradient-to-r from-[#0b2040] to-[#a90a18] text-white font-semibold rounded-lg shadow-lg hover:from-[#a90a18] hover:to-[#0b2040] transition-all">
-          Get Started
+        <button className="mt-8 px-6 py-3 bg-gradient-to-r from-[#0b2040] to-[#a90a18] text-white font-semibold rounded-lg shadow-lg hover:from-[#a90a18] hover:to-[#0b2040] transition-all" onClick={() => router.push("/register")}>
+          Register Now
         </button>
       </div>
     </section>

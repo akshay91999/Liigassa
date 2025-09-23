@@ -14,6 +14,7 @@ export default function PlayerRegister() {
 
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false); // 🔹 Track submission state
 
   // 🔹 Handle input/select changes
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -32,20 +33,45 @@ export default function PlayerRegister() {
   // 🔹 Handle form submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true); // disable button
 
-    const form = new FormData();
-    Object.keys(formData).forEach((key) => {
-      form.append(key, formData[key as keyof typeof formData]);
-    });
-    if (image) form.append("image", image);
+    try {
+      const form = new FormData();
+      Object.keys(formData).forEach((key) => {
+        form.append(key, formData[key as keyof typeof formData]);
+      });
+      if (image) form.append("image", image);
 
-    const res = await fetch("/api/register", {
-      method: "POST",
-      body: form,
-    });
+      const res = await fetch("/api/register", {
+        method: "POST",
+        body: form,
+      });
 
-    const data = await res.json();
-    alert(data.message || data.error);
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message || "Registration successful ✅");
+
+        // 🔹 Reset form after success
+        setFormData({
+          fullname: "",
+          dob: "",
+          email: "",
+          phone: "",
+          position: "",
+          place: "",
+        });
+        setImage(null);
+        setPreview(null);
+      } else {
+        alert(data.error || "Something went wrong ❌");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error ❌");
+    } finally {
+      setLoading(false); // re-enable button
+    }
   };
 
   return (
@@ -64,9 +90,7 @@ export default function PlayerRegister() {
             { name: "place", type: "text", placeholder: "Place" },
           ].map((field, i) => (
             <div key={i} className="relative">
-              <label
-                className="absolute -top-2 left-3 bg-[#0b2040] px-2 text-xs text-gray-300 rounded"
-              >
+              <label className="absolute -top-2 left-3 bg-[#0b2040] px-2 text-xs text-gray-300 rounded">
                 {field.placeholder}
               </label>
               <input
@@ -78,14 +102,11 @@ export default function PlayerRegister() {
                focus:outline-none focus:ring-2 focus:ring-[#a90a18] focus:border-transparent transition-all"
               />
             </div>
-
           ))}
 
           {/* Position Options */}
           <div className="relative">
-            <label
-              className="absolute -top-2 left-3 bg-[#0b2040] px-2 text-xs text-gray-300 rounded"
-            >
+            <label className="absolute -top-2 left-3 bg-[#0b2040] px-2 text-xs text-gray-300 rounded">
               Position
             </label>
             <div role="radiogroup" aria-label="Position" className="grid grid-cols-2 gap-3">
@@ -104,9 +125,11 @@ export default function PlayerRegister() {
                     aria-checked={selected}
                     onClick={() => setFormData({ ...formData, position: opt.value })}
                     className={`w-full px-4 py-3 rounded-lg border transition-all text-left
-                    ${selected
-                      ? "border-white/60 bg-white/10 ring-2 ring-[#a90a18] text-white"
-                      : "border-gray-400 text-gray-200 hover:border-white/60 hover:bg-white/5"}
+                    ${
+                      selected
+                        ? "border-white/60 bg-white/10 ring-2 ring-[#a90a18] text-white"
+                        : "border-gray-400 text-gray-200 hover:border-white/60 hover:bg-white/5"
+                    }
                     `}
                   >
                     <div className="flex items-center justify-between">
@@ -150,10 +173,15 @@ export default function PlayerRegister() {
 
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-gradient-to-r from-[#a90a18] to-[#0b2040] 
-            text-white font-semibold tracking-wide shadow-lg transform hover:scale-105 transition-all"
+            disabled={loading} // 🔹 disable while loading
+            className={`w-full py-3 rounded-lg font-semibold tracking-wide shadow-lg transform transition-all
+              ${
+                loading
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-gradient-to-r from-[#a90a18] to-[#0b2040] text-white hover:scale-105"
+              }`}
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>
