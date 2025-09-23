@@ -34,9 +34,10 @@ export default function TeamsPage() {
                 />
               </div>
 
-              <p className="mt-4 text-lg font-semibold tracking-wide">
+              <p className="mt-4 text-base sm:text-lg md:text-xl lg:text-2xl font-semibold tracking-wide">
                 {item.name}
               </p>
+
             </div>
           ))}
         </div>
