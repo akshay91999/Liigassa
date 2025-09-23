@@ -1,6 +1,8 @@
 import Image from "next/image";
 import HomePage from "./Sections/HomePage";
 import AboutPage from "./about/page";
+import TeamsPage from "./teams/page";
+import PlayersPage from "./players/page";
 
 export default function Home() {
   return (
@@ -8,6 +10,8 @@ export default function Home() {
        <div>
         <HomePage/>
         <AboutPage/>
+        <TeamsPage/>
+        <PlayersPage/>
        </div>
     // </div>
   );

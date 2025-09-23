@@ -26,25 +26,31 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-transparent opacity-0 shadow-md" : "bg-transparent"
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center ">
+        <Link href="/" className="flex items-center space-x-2">
           <Image
             src="/Ligassalogopng.png"
             alt="Ligassa Logo"
-            width={110}
+            width={100}
             height={20}
             priority
+            className="w-20 h-auto sm:w-24 md:w-20 lg:w-24"
           />
           <h1
-            className={`${dancing.className} text-4xl font-extrabold bg-gradient-to-r from-[#fff8db] to-[#a90a18] bg-clip-text text-transparent tracking-wide`}
+            className={`${dancing.className} 
+      text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
+      font-extrabold 
+      bg-gradient-to-r from-[#fff8db] to-[#a90a18] 
+      bg-clip-text text-transparent tracking-wide`}
           >
             LIIGASSA
           </h1>
         </Link>
+
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6 text-gray-700 font-medium">
