@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function PlayersPage() {
   let serialized: LeanPlayer[] = [];
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/api/players`, {
+    const res = await fetch(`/api/players`, {
       cache: "no-store",
     });
     if (!res.ok) throw new Error("Failed to fetch players");
