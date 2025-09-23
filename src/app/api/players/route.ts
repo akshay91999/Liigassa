@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     await connectDB();
-    const players = await Player.find().sort({ createdAt: -1 }).lean();
-    const serialized = players.map((p: any) => ({
+    const players = await Player.find().sort({ createdAt: -1 }).lean() as Record<string, unknown>[];
+    const serialized = players.map((p) => ({
       _id: String(p._id),
       fullname: p.fullname,
       dob: p.dob,

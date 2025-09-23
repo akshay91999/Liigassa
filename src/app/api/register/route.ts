@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     await fs.mkdir(uploadsDir, { recursive: true });
 
     const arrayBuffer = await imageFile.arrayBuffer();
-    let buffer: any = Buffer.from(arrayBuffer as ArrayBuffer);
+    let buffer: Buffer = Buffer.from(arrayBuffer as ArrayBuffer);
 
     const timePrefix = Date.now();
     const originalName = imageFile.name?.replace(/[^a-zA-Z0-9.\-_]/g, "_") || "upload.jpg";
@@ -38,10 +38,10 @@ export async function POST(req: NextRequest) {
       try {
         // Dynamically import without static module resolution
         const dynamicImport = (Function("return import"))() as unknown as <T>(m: string) => Promise<T>;
-        const rembg: any = await dynamicImport("rembg-node");
+        const rembg: { removeBackground: (buffer: Buffer) => Promise<Buffer | ArrayBuffer> } = await dynamicImport("rembg-node");
         if (rembg && typeof rembg.removeBackground === "function") {
-          const outputAny: any = await rembg.removeBackground(buffer as any);
-          const outputBuffer: any = Buffer.isBuffer(outputAny)
+          const outputAny: Buffer | ArrayBuffer = await rembg.removeBackground(buffer);
+          const outputBuffer: Buffer = Buffer.isBuffer(outputAny)
             ? outputAny
             : Buffer.from(outputAny as ArrayBuffer);
           if (outputBuffer) {
@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: "Registration successful", playerId: created._id }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Register POST error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
