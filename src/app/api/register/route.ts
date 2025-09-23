@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
             bgRemoved = true;
           }
         }
-      } catch (e) {
+      } catch {
         // Ignore and fallback
       }
     

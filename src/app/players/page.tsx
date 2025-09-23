@@ -20,7 +20,7 @@ export default async function PlayersPage() {
     if (!res.ok) throw new Error("Failed to fetch players");
     const data = await res.json();
     serialized = data.players as LeanPlayer[];
-  } catch (e) {
+  } catch {
     serialized = [];
   }
 

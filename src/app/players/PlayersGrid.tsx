@@ -1,5 +1,6 @@
 "use client";
 import { motion, Variants } from "framer-motion";
+import Image from "next/image";
 
 type Player = {
   _id: string;
@@ -94,9 +95,11 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
 
             <div className="relative mt-4 flex justify-center">
               <div className="relative h-40 w-40">
-                <img
+                <Image
                   src={player.image || "/Ligassalogopng.png"}
                   alt={player.fullname}
+                  width={160}
+                  height={160}
                   className="h-40 w-40 object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 -z-10 rounded-full blur-2xl bg-[#a90a18]/20" />
