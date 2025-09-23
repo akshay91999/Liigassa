@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Player from "@/models/Player";
-import { promises as fs } from "fs";
-import path from "path";
+import cloudinary from "@/lib/cloudinary"; // make sure lib/cloudinary.ts exists
+import { Readable } from "stream";
+import { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
+
+// Disable Next.js default body parsing
+export const config = {
+  api: { bodyParser: false },
+};
+
+// Helper to convert buffer to readable stream for Cloudinary
+function bufferToStream(buffer: Buffer): Readable {
+  const readable = new Readable();
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,46 +31,42 @@ export async function POST(req: NextRequest) {
     const imageFile = formData.get("image") as File | null;
 
     if (!fullname || !dob || !email || !phone || !position || !place || !imageFile) {
-      return NextResponse.json({ error: "All fields and image are required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "All fields and image are required" },
+        { status: 400 }
+      );
     }
 
-    // Save image to public/uploads
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    await fs.mkdir(uploadsDir, { recursive: true });
-
+    // Convert image to Buffer
     const arrayBuffer = await imageFile.arrayBuffer();
-    let buffer: Buffer = Buffer.from(arrayBuffer as ArrayBuffer);
+    let buffer: Buffer = Buffer.from(arrayBuffer);
 
-    const timePrefix = Date.now();
-    const originalName = imageFile.name?.replace(/[^a-zA-Z0-9.\-_]/g, "_") || "upload.jpg";
-    const fileName = `${timePrefix}-${originalName}`;
-    const filePath = path.join(uploadsDir, fileName);
-    
+    // Optional: Remove background using rembg-node
     try {
-      // Dynamically import without static module resolution
       const dynamicImport = (Function("return import"))() as unknown as <T>(m: string) => Promise<T>;
       const rembg: { removeBackground: (buffer: Buffer) => Promise<Buffer | ArrayBuffer> } = await dynamicImport("rembg-node");
-      if (rembg && typeof rembg.removeBackground === "function") {
-        const outputAny: Buffer | ArrayBuffer = await rembg.removeBackground(buffer);
-        const outputBuffer: Buffer = Buffer.isBuffer(outputAny)
-          ? outputAny
-          : Buffer.from(outputAny as ArrayBuffer);
-        if (outputBuffer) {
-          buffer = outputBuffer;
-        }
-      }
+      const outputAny: Buffer | ArrayBuffer = await rembg.removeBackground(buffer);
+      buffer = Buffer.isBuffer(outputAny) ? outputAny : Buffer.from(outputAny as ArrayBuffer);
     } catch {
-      // Ignore and fallback
+      console.warn("Background removal failed, using original image");
     }
-    
 
-    // If background not removed, proceed with original buffer (no external fallback)
+    // Upload to Cloudinary
+    const uploadResult: UploadApiResponse = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "players" }, // optional folder
+        (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+          if (error) reject(error);
+          else if (result) resolve(result);
+          else reject(new Error("Unknown Cloudinary upload error"));
+        }
+      );
+      bufferToStream(buffer).pipe(stream);
+    });
 
-    await fs.writeFile(filePath, buffer);
+    const imageUrl = uploadResult.secure_url; // store in MongoDB
 
-    const imagePathForDb = `/uploads/${fileName}`;
-
-    // Connect and create document
+    // Connect to MongoDB and create document
     await connectDB();
     const created = await Player.create({
       fullname,
@@ -65,14 +75,15 @@ export async function POST(req: NextRequest) {
       phone,
       position,
       place,
-      image: imagePathForDb,
+      image: imageUrl,
     });
 
-    return NextResponse.json({ message: "Registration successful", playerId: created._id }, { status: 201 });
+    return NextResponse.json(
+      { message: "Registration successful", playerId: created._id },
+      { status: 201 }
+    );
   } catch (error: unknown) {
     console.error("Register POST error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
-
-
