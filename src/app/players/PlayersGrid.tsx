@@ -30,9 +30,15 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
       transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
   };
+
   const item: Variants = {
     hidden: { opacity: 0, y: 20, scale: 0.98 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 250, damping: 20 } as const },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 250, damping: 20 } as const,
+    },
   };
 
   return (
@@ -69,30 +75,49 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
             }}
           />
 
-          {/* Animated background accents behind the card */}
+          {/* Animated background accents */}
           <motion.div
             aria-hidden
             className="pointer-events-none absolute -z-10 -top-16 -right-16 h-40 w-40 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(closest-side, rgba(169,10,24,0.35), transparent)" }}
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(169,10,24,0.35), transparent)",
+            }}
             animate={{ rotate: [0, 180, 360] }}
             transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
           />
           <motion.div
             aria-hidden
             className="pointer-events-none absolute -z-10 -bottom-20 -left-24 h-48 w-48 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(closest-side, rgba(11,32,64,0.35), transparent)" }}
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(11,32,64,0.35), transparent)",
+            }}
             animate={{ x: [0, 10, -10, 0], y: [0, -8, 8, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
 
           <div className="relative px-6 pt-8">
+            {/* Top row with logo + text on left */}
             <div className="flex items-center justify-between">
-              <span className="text-[10px] tracking-widest uppercase text-gray-300">Liigassa</span>
-              <span className="text-[10px] px-2 py-1 rounded-full bg-gradient-to-r from-[#a90a18] to-[#0b2040] text-white">
+              <div className="flex items-center gap-2">
+                <Image
+                  src="/Ligassalogopng.png"
+                  alt="Ligassa logo"
+                  width={38}
+                  height={38}
+                  className="object-contain"
+                />
+                <span className="text-xs md:text-sm tracking-widest uppercase text-gray-200 font-semibold">
+                  Liigassa
+                </span>
+              </div>
+              <span className="text-[11px] px-3 py-1 rounded-full font-bold bg-gradient-to-r from-[#a90a18] to-[#0b2040] text-white shadow-md">
                 {player.position}
               </span>
             </div>
 
+            {/* Player photo */}
             <div className="relative mt-4 flex justify-center">
               <div className="relative h-40 w-40">
                 <Image
@@ -106,10 +131,15 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
               </div>
             </div>
 
+            {/* Player details */}
             <div className="mt-5 text-center px-2">
-              <h2 className="text-lg md:text-xl font-extrabold tracking-wide text-white line-clamp-1">{player.fullname}</h2>
+              <h2 className="text-lg md:text-xl font-extrabold tracking-wide text-white drop-shadow-lg">
+                {player.fullname}
+              </h2>
               <div className="mt-1 text-xs md:text-sm text-gray-300 flex items-center justify-center gap-2">
-                <span className="uppercase tracking-wider">{player.position}</span>
+                <span className="uppercase tracking-wider font-semibold text-[#a90a18]">
+                  {player.position}
+                </span>
                 <span className="w-1 h-1 rounded-full bg-gray-500" />
                 <span>{calculateAge(player.dob) ?? "-"} yrs</span>
                 <span className="w-1 h-1 rounded-full bg-gray-500" />
@@ -118,6 +148,7 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
             </div>
           </div>
 
+          {/* Bottom shimmer */}
           <div className="mt-6 border-t border-white/10 p-4">
             <div className="relative h-1 w-full overflow-hidden rounded-full bg-white/10">
               <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-[#a90a18] to-[#0b2040] animate-[shimmer_2.4s_ease_infinite]" />
@@ -125,9 +156,12 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
           </div>
         </motion.article>
       ))}
-      <style suppressHydrationWarning>{`@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}`}</style>
+      <style suppressHydrationWarning>{`
+        @keyframes shimmer {
+          0% { transform: translateX(-100%) }
+          100% { transform: translateX(300%) }
+        }
+      `}</style>
     </motion.div>
   );
 }
-
-
