@@ -1,6 +1,8 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
+import { toJpeg } from "html-to-image";
 
 type Player = {
   _id: string;
@@ -39,6 +41,22 @@ export default function PlayersGrid({ players }: { players: Player[] }) {
       scale: 1,
       transition: { type: "spring", stiffness: 250, damping: 20 } as const,
     },
+  };
+
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
+  const handleDownload = async (): Promise<void> => {
+    if (cardRef.current) {
+      try {
+        const dataUrl: string = await toJpeg(cardRef.current, { quality: 0.95 });
+        const link: HTMLAnchorElement = document.createElement("a");
+        link.download = "ligassa-card.jpeg";
+        link.href = dataUrl;
+        link.click();
+      } catch (error) {
+        console.error("Failed to download card as JPEG", error);
+      }
+    }
   };
 
   return (

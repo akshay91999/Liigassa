@@ -21,14 +21,29 @@ export default function PlayerRegister() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 🔹 Handle image upload
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
+const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+
+  if (file) {
+    const validTypes = ["image/jpeg", "image/png"];
+
+    // Check file type
+    if (!validTypes.includes(file.type)) {
+      alert("Only JPG and PNG files are allowed");
+      e.target.value = ""; // Reset input
+      return;
+    }
+
+    // Check file size (<= 2 MB)
+    if (file.size <= 2 * 1024 * 1024) {
       setImage(file);
       setPreview(URL.createObjectURL(file));
+    } else {
+      alert("File size must be less than or equal to 2 MB");
+      e.target.value = ""; // Reset input
     }
-  };
+  }
+};
 
   // 🔹 Handle form submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
