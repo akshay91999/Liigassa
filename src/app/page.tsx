@@ -2,6 +2,7 @@ import HomePage from "./Sections/HomePage";
 import AboutPage from "./about/page";
 import TeamsPage from "./teams/page";
 import PlayersPage from "./players/page";
+import PreviousSeasons from "./previousseason/page";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <HomePage/>
         <AboutPage/>
         <TeamsPage/>
+        <PreviousSeasons/>
         {/* <PlayersPage/> */}
        </div>
     // </div>

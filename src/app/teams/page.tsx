@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function TeamsPage() {
   return (
-    <section className="relative py-20 bg-gradient-to-br from-[#0b2040] via-[#111827] to-[#1f2937] text-white">
+    <section className="relative py-20 bg-gradient-to-br from-[#0b2040] via-[#111827] to-[#a90a18] text-white">
       <div className="max-w-7xl mx-auto px-6 text-center">
         {/* Heading */}
         <h2 className="text-4xl md:text-6xl font-extrabold tracking-wide mb-6">
