@@ -20,13 +20,14 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    console.log(window)
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-transparent opacity-0 shadow-md" : "bg-transparent"
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-transparent  shadow-md" : "bg-transparent"
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
@@ -71,12 +72,12 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-black shadow-md flex flex-col gap-3 justify-center-safe">
-          <NavLink href="/" label="Home"/>
-          <NavLink href="/about" label="About" />
-          <NavLink href="/teams" label="Teams" />
-          <NavLink href="/players" label="Players" />
-          <NavLink href="/register" label="Register" />
+        <div className="md:hidden bg-black shadow-md flex flex-col gap-3 w-full">
+          <NavLink href="/" label="Home" className="text-center"/>
+          <NavLink href="/about" label="About" className="text-center"/>
+          <NavLink href="/teams" label="Teams" className="text-center"/>
+          <NavLink href="/players" label="Players"  className="text-center"/>
+          <NavLink href="/register" label="Register" className="text-center"/>
         </div>
       )}
     </nav>
