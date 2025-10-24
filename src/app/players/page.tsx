@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import PlayersGrid from "./PlayersGrid";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import LoadingPage from "@/Components/LoadingPage";
 
 type LeanPlayer = {
   _id: string;
@@ -75,9 +76,9 @@ export default function PlayersPage() {
     return matchSearch && matchPosition && matchPlace;
   });
 
-  if (loading)
-    return <p className="text-center mt-20 text-gray-300">Loading players...</p>;
-
+  if (loading){
+    return <LoadingPage/>
+  }
   // helper: convert image url to base64 data URL
   async function urlToDataUrl(url?: string): Promise<string | null> {
     if (!url) return null;
