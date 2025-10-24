@@ -8,11 +8,11 @@ type Player = {
   _id: string;
   fullname: string;
   dob: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   position: string;
   place: string;
-  image: string;
+  image?: string;
 };
 
 function calculateAge(dateString: string): number | null {
