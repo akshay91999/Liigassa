@@ -1,10 +1,10 @@
 export const teamsData=[
-    {name:"Trouble Corner FC",img:"/teams/team1.png"},
-    {name:"CFC kambilkadavu",img:"/teams/team2.png"},
-    {name:"Bradford FC",img:"/teams/team3.png"},
-    {name:"United FC Anthoor ",img:"/teams/team4.png"},
-    {name:"Podikund City FC",img:"/teams/team5.png"},
-    {name:"Oruma FC",img:"/teams/team6.png"},
-    {name:"Bandidos FC",img:"/teams/team7.png"}
+    {name:"Choramukk FC",img:"/teams/team1.jpeg"},
+    {name:"Al Royal Falcon United",img:"/teams/team2.jpeg"},
+    {name:"Turbo Strikers",img:"/teams/team3.jpeg"},
+    {name:"United FC Anthoor ",img:"/teams/team4.jpeg"},
+    {name:"FC Camaraderie",img:"/teams/team5.jpeg"},
+    {name:"Oruma FC",img:"/teams/team6.jpeg"},
+    {name:"FC Dharmakulam",img:"/teams/team7.jpeg"}
     
 ]

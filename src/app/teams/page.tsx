@@ -12,7 +12,7 @@ export default function TeamsPage() {
           </span>
         </h2>
         <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-          8 powerful teams battle it out in <span className="font-bold text-[#a90a18]">Liigassa Season 1</span>.
+          8 powerful teams battle it out in <span className="font-bold text-[#a90a18]">Liigassa Season 2</span>.
           Every logo carries passion, strength, and the spirit of football.
         </p>
 
